@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema de Gestion de otorgamiento de circulo infantil</title>
+    
+    <!-- Tailwind CSS Link -->
+    <link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+
+    <!-- Fontawesome Link -->
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+ 
+  </head>
+  <body class="bg-gray-200">
+    
+    <nav class="flex py-5 bg-blue-500 text-white px-24">
+        <div class="w-1/2 px-12 mr-auto">
+        <p class="text-2xl font-bold">Gestionar quejas</p>
+        </div>
+
+        <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
+        <li class="nav-item px-4">
+            <a href="/JefePI" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Inicio</a>
+        </li>
+
+        <li class="nav-item px-4">
+            <a href="/quejas" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Quejas</a>
+        </li>
+
+        </ul>
+
+    </nav>
+
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-12">
+
+    <table class="table-fixed w-full">
+      <thead>
+        <tr class="bg-blue-500 text-white">
+          <th style="" class="w-1/6 py-1 ..."> </th>
+          <th class="w-1/2 py-4 ...">Nombre</th>
+          <th class="w-1/2 py-4 ...">Fecha</th>
+           <th class="w-1/2 py-4 ...">Descripcion</th>
+          <th class="w-28 py-4 ...">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+       {{#each quejas}}
+        <tr>
+          <td class="p-3" > <input type="checkbox" name="numeroqueja"  onclick="handleCheckboxClick(this)" value="{{numeroqueja}}" > </td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{nombresolicitante}}</td>
+          <td class="p-3" >{{fechaqueja}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{descripcionqueja}}</td>
+          
+          <td class="p-3 flex">
+            <form action="/quejas/delete" method="POST" class="mx-2">
+            <input type="hidden" value="{{numeroqueja}}" name="id">
+            <button class="bg-red-500 text-white px-3 py-1 rounded-sm" type="submit">
+            <i class="fa fa-trash"></i></button>
+            
+            </form>
+            
+             <a href="/quejas/edit/{{numeroqueja}}" class="bg-green-500 text-white px-3 py-1 rounded-sm">
+            <i class="fa fa-pen"></i></a>
+
+            
+          </td>
+        </tr>
+     {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+  
+
+
+<div class="block mx-auto my-12 p-8 bg-white w-1/3 border-gray-200 rounder-lg shadow-lg">
+
+<h2 class="text-center text-3xl font-bold">Responder queja</h2>
+
+<form id="MyForm" action="" method="POST" class="mt-6">
+    <input type="hidden" name="numeroqueja" id="inputnumeroqueja" value="">
+
+     <textarea class="border border-gray-200 rounded-md bg-gray-200 w-full text-lg placeholder-gray-500
+    p-2 my-2 focus:bg-white" placeholder = "Respuesta de la queja" id="texto" name="respuesta" disabled></textarea>
+
+    <button type="submit" id="butt" class="rounder-md bg-blue-500 w-full text-white font-semibold p-2 my-3
+    hover:bg-blue-600 focus:bg-white-700">Enviar respuesta</button>
+</form>
+
+</div> 
+
+<script>
+let lastChecked;
+
+  const textarea = document.getElementById('texto');
+function handleCheckboxClick(currentCheckbox) {
+  if (lastChecked && lastChecked !== currentCheckbox) {
+    lastChecked.checked = false;
+  }
+  lastChecked = currentCheckbox;
+      if (currentCheckbox.checked) {
+      textarea.disabled = false;
+    } else {
+      textarea.disabled = true;
+      textarea.value = ""
+    }
+  change();
+}
+
+function change() {
+  // Obtener el checkbox seleccionado
+  const checkbox = document.querySelector('input[name="numeroqueja"]:checked');
+  
+  // Obtener el valor del checkbox seleccionado
+  const selectedID = checkbox ? checkbox.value : '';
+  
+  // Agregar el ID seleccionado al input oculto
+  const selectedIDInput = document.getElementById('inputnumeroqueja');
+  selectedIDInput.value = selectedID;
+}
+</script>
+
+
+  </body>
+</html>
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema de Gestion de otorgamiento de circulo infantil</title>
+    
+    <!-- Tailwind CSS Link -->
+    <link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+
+    <!-- Fontawesome Link -->
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+ 
+  </head>
+  <body class="bg-gray-200">
+    
+    <nav class="flex py-5 bg-blue-500 text-white px-24">
+        <div class="w-1/2 px-12 mr-auto">
+        <p class="text-2xl font-bold">Gestionar Usuarios</p>
+        </div>
+
+        <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
+        <li class="nav-item px-4">
+            <a href="/JefePI" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Inicio</a>
+        </li>
+
+        <li class="nav-item px-4">
+            <a href="/tasks" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Usuarios</a>
+        </li>
+
+        <li class="nav-item px-4">
+            <a href="/create" class="nav-link font-semibold border-2 border-white hover:text-blue-700
+            hover:bg-white py-3 px-4 rounded-md">Adicionar usuario</a>
+        </li>
+        </ul>
+
+    </nav>
+
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-12">
+
+    <table class="table-fixed w-full">
+      <thead>
+        <tr class="bg-blue-500 text-white">
+          <th class="w-20 py-4 ...">ID</th>
+          <th class="w-1/4 py-4 ...">Usuario</th>
+          <th class="w-1/2 py-4 ...">Contraseña</th>
+          <th class="w-1/2 py-4 ...">Rol</th>
+          <th class="w-1/2 py-4 ...">Nombre</th>
+          <th class="w-1/2 py-4 ...">Apellido</th>
+          <th class="w-1/2 py-4 ...">CI</th>
+          <th class="w-28 py-4 ...">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+       {{#each tasks}}
+        <tr>
+          <td class="py-3 px-6">{{id}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{username}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{password}}</td>
+          <td class="p-3" >{{rol}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{nombre}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{apellido}}</td>
+          <td class="p-3" >{{CI}}</td>
+          <td class="p-3 flex">
+            <form action="/tasks/delete" method="POST" class="mx-2">
+            <input type="hidden" value="{{id}}" name="id">
+            <button class="bg-red-500 text-white px-3 py-1 rounded-sm" type="submit">
+            <i class="fa fa-trash"></i></button>
+            
+            </form>
+            
+             <a href="/tasks/edit/{{id}}" class="bg-green-500 text-white px-3 py-1 rounded-sm">
+            <i class="fa fa-pen"></i></a>
+
+            
+          </td>
+        </tr>
+     {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+  
+  </body>
+</html>
+

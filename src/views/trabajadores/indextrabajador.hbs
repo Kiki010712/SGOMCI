@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema de Gestion de otorgamiento de circulo infantil</title>
+    
+    <!-- Tailwind CSS Link -->
+    <link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.1/tailwind.min.css">
+
+    <!-- Fontawesome Link -->
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+ 
+  </head>
+  <body class="bg-gray-200">
+    
+    <nav class="flex py-5 bg-blue-500 text-white px-24">
+        <div class="w-1/2 px-12 mr-auto">
+        <p class="text-2xl font-bold">Gestionar trabajadores</p>
+        </div>
+
+        <ul class="w-1/2 px-16 ml-auto flex justify-end pt-1">
+        <li class="nav-item px-4">
+            <a href="/DirectorMINED" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Inicio</a>
+        </li>
+
+        <li class="nav-item px-4">
+            <a href="/trabajadores" class="nav-link font-semibold hover:bg-blue-700 py-3 px-4 rounded-md">Trabajadores</a>
+        </li>
+
+        <li class="nav-item px-4">
+            <a href="/createtrabajador" class="nav-link font-semibold border-2 border-white hover:text-blue-700
+            hover:bg-white py-3 px-4 rounded-md">Adicionar trabajador</a>
+            
+        </li>
+        </ul>
+
+    </nav>
+
+<div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+  <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-12">
+
+    <table class="table-fixed w-full">
+      <thead>
+        <tr class="bg-blue-500 text-white">
+          <th class="w-20 py-4 ..."></th>
+          <th class="w-1/4 py-4 ...">Nombre del trabajador</th>
+          <th class="w-1/2 py-4 ...">CI del trabajador</th>
+          <th class="w-1/2 py-4 ...">Edad</th>
+          <th class="w-1/2 py-4 ...">Telefono del trabajador</th>
+          <th class="w-1/2 py-4 ...">Dirección del trabajador</th>
+          <th class="w-1/2 py-4 ...">Cargo que ocupa</th>
+          <th class="w-1/2 py-4 ...">Correo</th>
+           <th class="w-1/2 py-4 ...">Equipo</th>
+
+          <th class="w-28 py-4 ...">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+       {{#each trabajadores}}
+        <tr>
+          <td class="py-3 px-6"><input type="checkbox" name="seleccionar-usuario" value="{{id}}"> </td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{nombretrabajador}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{CItrabajador}}</td>
+          <td class="p-3" >{{edad}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{telefonotrabajador}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{direccionparticular}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{cargo}}</td>
+          <td class="p-3" style=" overflow-x: hidden; flex-wrap: nowrap; width: 100%; text-overflow: ellipsis;">{{correo}}</td>
+           <td class="p-3" >{{equipo}}</td>
+          <td class="p-3 flex">
+            <form action="/trabajadores/delete" method="POST" class="mx-2">
+            <input type="hidden" value="{{id}}" name="id">
+            <button class="bg-red-500 text-white px-3 py-1 rounded-sm" type="submit">
+            <i class="fa fa-trash"></i></button>
+            
+            </form>
+            
+             <a href="/trabajadores/edit/{{id}}" class="bg-green-500 text-white px-3 py-1 rounded-sm">
+            <i class="fa fa-pen"></i></a>
+            </td>
+        </tr>
+       {{/each}}
+      </tbody>
+    </table>
+</div>
+   <button type="button" class="rounder-md bg-blue-500 w-50 mx-auto text-white font-semibold p-2 my-5
+    hover:bg-blue-600 focus:bg-blue-700"  onclick="agregarEquipo()">Conformar equipo de trabajo</button>
+</div>
+   
+   </body>
+   <script>
+    function agregarEquipo() {
+      const checkboxes = document.getElementsByName('seleccionar-usuario');
+      const ids = [];
+
+      for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          ids.push(checkboxes[i].value);
+        }
+      }
+
+      if (ids.length > 0) {
+        const grupo = prompt('Ingrese el número del Equipo de Trabajo:');
+        if (grupo) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              console.log(xhr.responseText);
+            }
+          };
+          const data = {
+            ids: ids,
+            grupo: grupo
+          };
+          xhr.send(JSON.stringify(data));
+          location.reload();
+        }
+      }
+    }
+  </script>
+</html>
